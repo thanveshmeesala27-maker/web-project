@@ -1,6 +1,30 @@
 <?php
 session_start();
-$con=mysqli_connect("localhost","root","","myhmsdb");
+$db_host = getenv('DB_HOST');
+$db_user = getenv('DB_USER');
+$db_pass = getenv('DB_PASSWORD');
+$db_name = getenv('DB_NAME');
+$db_port = (int) getenv('DB_PORT');
+$db_ca = '/etc/secrets/isrgrootx1.pem';
+
+$con = mysqli_init();
+mysqli_ssl_set($con, NULL, NULL, $db_ca, NULL, NULL);
+
+if (!mysqli_real_connect(
+    $con,
+    $db_host,
+    $db_user,
+    $db_pass,
+    $db_name,
+    $db_port,
+    NULL,
+    MYSQLI_CLIENT_SSL
+)) {
+    error_log("Database connection failed: " . mysqli_connect_error());
+    http_response_code(500);
+    exit("Database connection failed.");
+require_once __DIR__ . '/auth_utils.php';
+}
 require_once __DIR__ . '/auth_utils.php';
 if(isset($_POST['patsub1'])){
     $fname=hms_escape($_POST['fname'] ?? '');
