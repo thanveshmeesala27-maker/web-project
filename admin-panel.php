@@ -1,18 +1,14 @@
-<!DOCTYPE html>
-<?php 
-include('func.php');  
+<?php
+include('func.php');
 include('newfunc.php');
-$con=mysqli_connect("localhost","root","","myhmsdb");
 
-
-  $pid = $_SESSION['pid'];
-  $username = $_SESSION['username'];
-  $email = $_SESSION['email'];
-  $fname = $_SESSION['fname'];
-  $gender = $_SESSION['gender'];
-  $lname = $_SESSION['lname'];
-  $contact = $_SESSION['contact'];
-
+$pid = $_SESSION['pid'];
+$username = $_SESSION['username'];
+$email = $_SESSION['email'];
+$fname = $_SESSION['fname'];
+$gender = $_SESSION['gender'];
+$lname = $_SESSION['lname'];
+$contact = $_SESSION['contact'];
 
 
 if(isset($_POST['app-submit']))
