@@ -1,7 +1,42 @@
 <?php
-session_start();
-$con=mysqli_connect("localhost","root","","myhmsdb");
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once __DIR__ . '/auth_utils.php';
+
+$db_host = getenv('DB_HOST');
+$db_user = getenv('DB_USER');
+$db_pass = getenv('DB_PASSWORD');
+$db_name = getenv('DB_NAME');
+$db_port = (int) getenv('DB_PORT');
+$db_ca = __DIR__ . '/certs/isrgrootx1.pem';
+
+$con = mysqli_init();
+
+if (!$con) {
+    http_response_code(500);
+    exit("Database initialization failed.");
+}
+
+mysqli_ssl_set($con, NULL, NULL, $db_ca, NULL, NULL);
+
+if (!mysqli_real_connect(
+    $con,
+    $db_host,
+    $db_user,
+    $db_pass,
+    $db_name,
+    $db_port,
+    NULL,
+    MYSQLI_CLIENT_SSL
+)) {
+    error_log("Database connection failed: " . mysqli_connect_error());
+    http_response_code(500);
+    exit("Database connection failed.");
+}
+
+mysqli_set_charset($con, "utf8mb4");
 if(isset($_POST['adsub'])){
     $username=hms_escape($_POST['username1'] ?? '');
     $password=$_POST['password2'] ?? '';
