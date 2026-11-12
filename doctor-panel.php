@@ -1,7 +1,7 @@
 <?php
 include('func1.php');
 
-$doctor = $_SESSION['dname'];
+$doctor = $_SESSION['dname'] ?? 'Doctor';
 if(isset($_GET['cancel']))
   {
     $query=mysqli_query($con,"update appointmenttb set doctorStatus='0' where ID = '".$_GET['ID']."'");
