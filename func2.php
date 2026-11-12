@@ -9,7 +9,6 @@ $db_ca = __DIR__ . '/certs/isrgrootx1.pem';
 $con = mysqli_init();
 mysqli_ssl_set($con, NULL, NULL, $db_ca, NULL, NULL);
 exit;
-
 if (!mysqli_real_connect(
     $con,
     $db_host,
