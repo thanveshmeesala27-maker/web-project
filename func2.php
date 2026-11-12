@@ -1,14 +1,25 @@
 <?php
 session_start();
+
+require_once __DIR__ . '/auth_utils.php';
+
 $db_host = getenv('DB_HOST');
 $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASSWORD');
 $db_name = getenv('DB_NAME');
 $db_port = (int) getenv('DB_PORT');
 $db_ca = __DIR__ . '/certs/isrgrootx1.pem';
+
 $con = mysqli_init();
+
+if (!$con) {
+    error_log("Database initialization failed.");
+    http_response_code(500);
+    exit("Database connection failed.");
+}
+
 mysqli_ssl_set($con, NULL, NULL, $db_ca, NULL, NULL);
-exit;
+
 if (!mysqli_real_connect(
     $con,
     $db_host,
@@ -22,9 +33,10 @@ if (!mysqli_real_connect(
     error_log("Database connection failed: " . mysqli_connect_error());
     http_response_code(500);
     exit("Database connection failed.");
-require_once __DIR__ . '/auth_utils.php';
 }
-require_once __DIR__ . '/auth_utils.php';
+
+mysqli_set_charset($con, "utf8mb4");
+
 if(isset($_POST['patsub1'])){
     $fname=hms_escape($_POST['fname'] ?? '');
     $lname=hms_escape($_POST['lname'] ?? '');
