@@ -8,8 +8,7 @@ RUN apt-get update && apt-get install -y \
     && a2enmod rewrite \
     && rm -rf /var/lib/apt/lists/*
 
-# Allow Apache PHP user to read Render secret files
-RUN usermod -a -G 1000 www-data
+# Allow Apache PHP user to read Render secret file
 
 COPY . /var/www/html/
 
