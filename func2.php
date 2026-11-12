@@ -8,8 +8,6 @@ $db_port = (int) getenv('DB_PORT');
 $db_ca = __DIR__ . '/certs/isrgrootx1.pem';
 $con = mysqli_init();
 mysqli_ssl_set($con, NULL, NULL, $db_ca, NULL, NULL);
-var_dump(file_exists($db_ca));
-var_dump(is_readable($db_ca));
 exit;
 
 if (!mysqli_real_connect(
